@@ -1,0 +1,82 @@
+
+const fs = require('fs');
+
+const domain = 'https://creativesworld.xyz';
+
+const pages = [
+  '/',
+  '/About',
+  '/Bathroom',
+  '/Bedrooms',
+  '/DIY',
+  '/Digital',
+  '/Home decor for courtesy world',
+  '/NEO DECO',
+  '/Porch ideas',
+  '/RUSTIC',
+  '/WABI SABI',
+  '/Zen garden',
+  '/affiliate',
+  '/anime room',
+  '/art studio',
+  '/baby toy',
+  '/backyard ideas',
+  '/basement',
+  '/beauty and style',
+  '/blog',
+  '/boat',
+  '/bookshelves',
+  '/cabinant',
+  '/cargo outfit',
+  '/chic decor',
+  '/coffee',
+  '/contact',
+  '/crafting bunny',
+  '/creative patio',
+  '/creative studio',
+  '/creatives world',
+  '/doll',
+  '/entryway',
+  '/fall outfit',
+  '/farmhouse',
+  '/fency gardens',
+  '/fire place',
+  '/frontyard ideas',
+  '/frontyard',
+  '/game',
+  '/garden improve health',
+  '/garden',
+  '/gardening',
+  '/gingerbread',
+  '/girls outfit',
+  '/glass cabin',
+  '/home decorideas',
+  '/home page',
+  '/homedecor category',
+  '/homedecorstyle',
+  '/homeoffice',
+  '/index'
+];
+
+const uniquePages = [...new Set(pages)];
+
+const xmlEscape = value =>
+  value.replace(/&/g, '&amp;')
+       .replace(/</g, '&lt;')
+       .replace(/>/g, '&gt;');
+
+let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+
+for (const page of uniquePages) {
+  const url = new URL(page, domain + '/').href;
+
+  xml += `  <url><loc>${xmlEscape(url)}</loc></url>\n`;
+}
+
+xml += '</urlset>';
+
+fs.writeFileSync('sitemap.xml', xml);
+
+console.log('Sitemap generated!');
+console.log('Total URLs:', uniquePages.length);
